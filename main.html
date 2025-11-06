@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Travel Detail</title>
+  <script src="https://kit.fontawesome.com/2922cc770b.js" crossorigin="anonymous"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff;
+    }
+
+    /* ✅ 전체 페이지를 80%로 제한하고 중앙 정렬 */
+    .page-wrapper {
+      width: 80%;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    #header, #footer {
+      width: 100%;
+    }
+
+    .main-container {
+      width: 80%;
+      height: 80%;
+      margin: 40px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ================================
+       ✅ 이미지 슬라이드
+    ================================ */
+    .photo-box {
+      position: relative;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .photo {
+      width: 100%;
+      aspect-ratio: 16 / 8;
+      height: auto;
+      border-radius: 15px;
+      object-fit: cover;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+      transition: opacity 0.4s ease;
+    }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.8);
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2em;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+    .nav-btn:hover {
+      background: #0073ff;
+      color: #fff;
+      transform: translateY(-50%) scale(1.05);
+    }
+    .nav-btn.prev { left: 10px; }
+    .nav-btn.next { right: 10px; }
+
+    /* ================================
+       ✅ 상세 영역
+    ================================ */
+    .detail {
+      width: 100%;
+      margin-top: 30px;
+      line-height: 1.7;
+      font-size: 1em;
+      color: #333;
+    }
+
+    .detail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .detail-header h1 {
+      font-size: 2em;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .button-box {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .buttons {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      padding: 8px 16px;
+      background-color: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      font-size: 0.95em;
+    }
+    .buttons:hover {
+      background-color: #f5f5f5;
+    }
+    .buttons i {
+      color: #e74c3c;
+      font-size: 1.2em;
+      transition: transform 0.2s ease;
+    }
+
+    @keyframes heartPop {
+      0% { transform: scale(1); }
+      40% { transform: scale(1.4); }
+      100% { transform: scale(1); }
+    }
+
+    /* ✅ 반응형 */
+    @media screen and (max-width: 480px) {
+      .page-wrapper { width: 95%; }
+      .detail-header h1 { font-size: 1.3em; }
+      .buttons { padding: 6px 12px; font-size: 0.85em; }
+      .nav-btn { width: 36px; height: 36px; font-size: 1em; }
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 1024px) {
+      .page-wrapper { width: 90%; }
+      .detail-header h1 { font-size: 1.6em; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-wrapper">
+    <!-- ✅ header.html이 불러와질 위치 -->
+    <div id="header"></div>
+
+    <div class="main-container">
+      <div class="photo-box">
+        <button class="nav-btn prev" onclick="prevImage()">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <img id="images" class="photo" src="images/australia_01.jpg" alt="사진">
+        <button class="nav-btn next" onclick="nextImage()">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+
+      <div class="detail">
+        <div class="detail-header">
+          <h1>멜버른 여행지 소개</h1>
+          <div class="button-box">
+            <button class="buttons" onclick="toggleHeart()">
+              <i class="fa-regular fa-heart"></i>
+              <span>저장</span>
+            </button>
+          </div>
+        </div>
+
+        <p>
+          멜버른은 세계에서 가장 큰 대도시 중 하나로 자리 잡았습니다. 공원과 자연, 다채로운 동네, 트렌디한 음식, 풍부한 역사 등 모든 것을 갖추고 있습니다.
+          <br><br>
+          아늑한 카페에서 플랫 화이트를 홀짝이고, 브런즈윅 스트리트에서 알뜰한 쇼핑을 즐기며, 피츠로이 가든에서 느긋하게 오후 시간을 보내세요.
+          <br><br>
+          도시의 가장 상징적인 거리 예술을 감상할 수 있는 호시어 레인을 거닐거나 멜버른 박물관의 분질라카 원주민 문화 센터에서 토착 역사에 대해 더 알아보세요.
+        </p>
+      </div>
+    </div>
+
+    <!-- ✅ footer.html이 불러와질 위치 -->
+    <div id="footer"></div>
+  </div>
+
+  <script>
+    // ✅ header/footer HTML 자동 포함
+    async function includeHTML(id, file) {
+      try {
+        const res = await fetch(file);
+        const text = await res.text();
+        document.getElementById(id).innerHTML = text;
+      } catch (e) {
+        console.error(`${file} 불러오기 실패`, e);
+      }
+    }
+
+    includeHTML("header", "header.html");
+    includeHTML("footer", "footer.html");
+
+    // ✅ 이미지 슬라이드
+    const images = [
+      "images/australia_01.jpg",
+      "images/australia_02.jpg",
+      "images/australia_03.jpg",
+      "images/australia_04.jpg",
+      "images/australia_05.jpg"
+    ];
+    let index = 0;
+
+    function showImage() {
+      const img = document.getElementById("images");
+      img.style.opacity = 0;
+      setTimeout(() => {
+        img.src = images[index];
+        img.style.opacity = 1;
+      }, 250);
+    }
+
+    function nextImage() {
+      index = (index + 1) % images.length;
+      showImage();
+    }
+
+    function prevImage() {
+      index = (index - 1 + images.length) % images.length;
+      showImage();
+    }
+
+    // ✅ 하트 토글 애니메이션
+    function toggleHeart() {
+      const heartIcon = document.querySelector(".buttons i");
+      heartIcon.classList.toggle("fa-solid");
+      heartIcon.classList.toggle("fa-regular");
+
+      heartIcon.style.animation = "none";
+      void heartIcon.offsetWidth;
+      heartIcon.style.animation = "heartPop 0.4s ease";
+    }
+  </script>
+</body>
+</html>
