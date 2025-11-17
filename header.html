@@ -102,6 +102,12 @@
       background: #003638;
       transform: scale(1.03);
     }
+    .mobile-login {
+      display: none;
+      font-size: 1.6em;
+      color: #00494b;
+      cursor: pointer;
+    }
 
     /* ===========================
        📱 반응형 설정
@@ -110,13 +116,17 @@
     /* ✅ 모바일 (480px 이하) */
     @media screen and (max-width: 480px) {
       nav {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 12px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
         padding: 18px 20px;
       }
+      .logo-title .title {
+        display: none; /* ✅ TRAVEL 텍스트 숨김 */
+      }
       .logo-title {
-        justify-content: center;
+        justify-content: flex-start;
       }
       .search-box {
         width: 100%;
@@ -124,22 +134,30 @@
       ul {
         display: none; /* 메뉴 숨김 */
       }
+      .mobile-login {
+        display: block;
+      }
     }
 
     /* ✅ 태블릿 (481~1024px) */
     @media screen and (min-width: 481px) and (max-width: 1024px) {
       nav {
-        flex-direction: column;
+        flex-direction: row;
         align-items: stretch;
         padding: 18px 30px;
+        flex-wrap: nowrap;
+        gap: 15px;  
+      }
+      .logo-title {
+        flex-shrink: 0;
       }
       .search-box {
         width: 100%;
+        flex-grow: 1;
+        margin: 0 15px;
       }
       ul {
-        display: flex;
-        justify-content: flex-end;
-        width: 100%;
+        margin-left: auto;
       }
       ul li.menu-box:not(.login-btn) {
         display: none; /* 로그인만 표시 */
@@ -163,8 +181,8 @@
     <nav>
       <!-- 🌍 로고 + TRAVEL -->
       <div class="logo-title">
-        <i class="fa-solid fa-earth-americas"></i>
-        <div class="title"><a href="#">TRAVEL</a></div>
+        <a href="index.html"><i class="fa-solid fa-earth-americas"></i></a>
+        <div class="title"><a href="index.html">TRAVEL</a></div>
       </div>
 
       <!-- 🔍 검색창 -->
@@ -174,6 +192,10 @@
         </button>
         <input class="search-text" type="text" name="query" placeholder="검색">
       </form>
+      
+      <div class="mobile-login">
+        <i class="fa-solid fa-user"></i>
+      </div>
 
       <!-- 메뉴 -->
       <ul>

@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>통합된 여행 사이트 레이아웃</title>
+    <script src="https://kit.fontawesome.com/2922cc770b.js" crossorigin="anonymous"></script>
+
+    <style>
+        /* 기본 초기화 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        a { text-decoration: none; color: black; }
+        ul { list-style: none; }
+
+        /* === 1. 헤더 스타일 === */
+        header {
+            width: 100%;
+            padding: 15px 0;
+            background: #fff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: relative; 
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
+            padding: 15px 20px;
+            max-width: 1200px;
+            margin: 0 auto; 
+            gap: 20px;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.5em; 
+            font-weight: bold;
+            color: #00494b; 
+            flex-shrink: 0; 
+        }
+        .logo-group i {
+            font-size: 1.1em;
+        }
+        
+        .search-group {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            border-radius: 25px;
+            padding: 8px 15px;
+            max-width: 450px;
+            background: #f7f7f7;
+        }
+        .search-group input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding-left: 10px;
+            background: transparent;
+        }
+        .search-group i {
+            color: #777;
+        }
+
+        .menu-group {
+            display: flex;
+            align-items: center;
+            gap: 20px; 
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        .menu-group li a {
+            color: #333;
+            padding: 5px 0; 
+        }
+
+        .login-btn a {
+            background: #00494b;
+            color: #fff !important;
+            padding: 8px 25px; /* ⭐ 수정 완료: 버튼 너비를 넓게 설정 ⭐ */
+            border-radius: 25px;
+            font-weight: bold;
+            margin-left: 0; 
+        }
+        
+        /* === 2. 메인 콘텐츠 (슬라이더 영역) === */
+        .main-container {
+            display: flex;
+            justify-content: center;
+            padding: 30px; 
+            margin-bottom: 30px; 
+        }
+        
+        /* 슬라이더 박스 */
+        .slider-box {
+            position: relative;
+            width: 90%; 
+            max-width: 900px; 
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            aspect-ratio: 16 / 9;
+            background-color: #f0f0f0; 
+        }
+        
+        /* 이미지 링크 및 이미지 스타일 */
+        #slide-link { 
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        #slide-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+            display: block;
+            object-position: center center;
+            transition: object-position 0.3s ease;
+        }
+
+        /* 화살표 버튼 스타일 */
+        .slide-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5em;
+            color: #333;
+            z-index: 10;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .slide-btn:hover {
+            opacity: 1;
+        }
+
+        #prevBtn { left: 10px; }
+        #nextBtn { right: 10px; }
+        
+        /* 텍스트 오버레이 스타일 */
+        .slide-overlay-text {
+            position: absolute;
+            bottom: 0; 
+            left: 0; 
+            width: 100%; 
+            z-index: 15; 
+            color: white;
+            font-size: 2.2em;
+            font-weight: 700;
+            background: rgba(0, 0, 0, 0.6); 
+            padding: 15px 40px; 
+            border-radius: 0; 
+            text-align: left; 
+        }
+
+        /* === 3. 푸터 스타일 (상세 구조 적용) === */
+        .footer {
+            background-color: #f9f9f9; 
+            color: #333;
+            padding: 40px 20px;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            max-width: 900px; 
+            margin: 0 auto;
+            text-align: left;
+            padding-bottom: 20px;
+        }
+
+        .footer-column {
+            flex: 1; 
+            min-width: 150px; 
+            padding: 0 10px;
+        }
+
+        .footer-column h4 {
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #00494b;
+        }
+
+        .footer-column ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 5px;
+        }
+
+        .footer-column ul li a {
+            color: #666;
+            line-height: 1.5;
+            transition: color 0.2s;
+        }
+
+        .footer-column ul li a:hover {
+            color: #00494b;
+            text-decoration: underline;
+        }
+
+        .footer-info {
+            margin-top: 20px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            font-size: 12px;
+            color: #777;
+            text-align: center;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <div class="logo-group">
+                <i class="fa-solid fa-earth-americas"></i>
+                TRAVEL
+            </div>
+
+            <form class="search-group" action="#" method="get">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" name="query" placeholder="검색">
+            </form>
+
+            <ul class="menu-group">
+                <li><a href="#">살펴보기</a></li>
+                <li><a href="#">여행</a></li>
+                <li><a href="#">리뷰</a></li>
+                <li><a href="#"><i class="fa-solid fa-globe"></i> | KRW</a></li>
+                <li class="login-btn"><a href="#">로그인</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="main-container">
+        <div class="slider-box">
+            
+            <a id="slide-link" href="#">
+                <img id="slide-image" src="" alt="슬라이드 이미지"> 
+            </a>
+
+            <div id="slide-title" class="slide-overlay-text"></div>
+
+            <button id="prevBtn" class="slide-btn" onclick="changeSlide(-1)">
+                <i class="fa-solid fa-chevron-left"></i>
+            </button>
+            <button id="nextBtn" class="slide-btn" onclick="changeSlide(1)">
+                <i class="fa-solid fa-chevron-right"></i>
+            </button>
+            
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            
+            <div class="footer-column">
+                <h4>회사 소개</h4>
+                <ul>
+                    <li><a href="#">트립어드바이저 소개</a></li>
+                    <li><a href="#">언론사</a></li>
+                    <li><a href="#">리스크 및 정책</a></li>
+                    <li><a href="#">구인정보</a></li>
+                    <li><a href="#">신뢰 및 안전</a></li>
+                    <li><a href="#">문의하기</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>둘러보기</h4>
+                <ul>
+                    <li><a href="#">리뷰 작성</a></li>
+                    <li><a href="#">장소 추가</a></li>
+                    <li><a href="#">기여하기</a></li>
+                    <li><a href="#">Travellers' Choice</a></li>
+                    <li><a href="#">도움말 센터</a></li>
+                    <li><a href="#">여행 스토리</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>파트너십</h4>
+                <ul>
+                    <li><a href="#">오너</a></li>
+                    <li><a href="#">비즈니스 플러스</a></li>
+                    <li><a href="#">스폰서 우선 배치</a></li>
+                    <li><a href="#">광고 게재</a></li>
+                    <li><a href="#">API에 액세스</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-column">
+                <h4>앱 다운로드</h4>
+                <ul>
+                    <li><a href="#">iPhone 앱</a></li>
+                    <li><a href="#">안드로이드 앱</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        
+        <div class="footer-info">
+            © 2025 Travel LLC All rights reserved.<br>
+            <a href="#">이용 약관</a> | <a href="#">개인정보 취급방침</a> | <a href="#">쿠키 정책</a><br>
+            대한민국의 한국어 사용자를 대상으로 하는 여행 웹사이트 버전입니다. 다른 국가 또는 지역에 거주하는 경우 드롭다운 메뉴에서 해당 국가 또는 지역에 적합한 버전을 선택하세요.
+        </div>
+    </footer>
+
+    <script>
+        // 슬라이더 데이터
+        const slideData = [
+            { src: "images/australia.jpg", link: "main.html?country=australia", alt: "호주" }, 
+            { src: "images/England.jpg", link: "main.html?country=uk", alt: "영국" },
+            { src: "images/USA.jpg", link: "main.html?country=usa", alt: "미국" },
+            
+        ];
+
+        let currentSlide = 0;
+        const slideImage = document.getElementById('slide-image');
+        const slideLink = document.getElementById('slide-link');
+        const slideTitle = document.getElementById('slide-title'); 
+
+        function showSlide(index) {
+            // 인덱스 순환 로직
+            if (index >= slideData.length) {
+                currentSlide = 0;
+            } else if (index < 0) {
+                currentSlide = slideData.length - 1;
+            } else {
+                currentSlide = index;
+            }
+
+            const data = slideData[currentSlide];
+
+            // 이미지 소스, Alt 텍스트, 링크 업데이트
+            slideImage.src = data.src; 
+            slideImage.alt = data.alt;
+            slideLink.href = data.link;
+
+            // 텍스트 오버레이 업데이트
+            slideTitle.textContent = data.alt; 
+
+            // 호주 이미지 초점 조정 로직
+            if (data.alt === '호주') {
+                slideImage.style.objectPosition = 'left center'; 
+            } else {
+                slideImage.style.objectPosition = 'center center';
+            }
+        }
+
+        // 버튼 클릭 시 슬라이드 변경 함수
+        function changeSlide(n) {
+            showSlide(currentSlide + n);
+        }
+
+        // 페이지 로드 시 첫 번째 슬라이드 표시
+        document.addEventListener('DOMContentLoaded', function() {
+            if (slideData.length > 0) {
+                showSlide(0);
+            } else {
+                slideImage.src = "";
+                slideImage.alt = "데이터 없음";
+                slideTitle.textContent = "데이터 없음";
+                slideLink.href = "#";
+            }
+        });
+    </script>
+</body>
+</html>
